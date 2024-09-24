@@ -11,8 +11,8 @@ services:
       - rope-network
     volumes:
       - ./frontend:/app
-    depends_on:
-      - backend
+    # depends_on:
+    #   - backend
 
   backend:
     container_name: backend 
