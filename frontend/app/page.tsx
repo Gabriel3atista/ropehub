@@ -1,7 +1,7 @@
-import { AppHeader, AppFooter, AppBody } from "@/components";
-import Image from "next/image";
+import { AppBody, AppFooter, AppHeader } from '@/components';
+import Image from 'next/image';
 
-export default function Home() {
+export default function Home () {
   return (
     <>
       <AppHeader />

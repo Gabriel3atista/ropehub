@@ -1,15 +1,27 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"server/controller"
+	"server/db"
+	"server/usecase"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	server := gin.Default()
 
-	server.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	dbConnection, error := db.ConnectDB()
+
+	if error != nil {
+		panic(error)
+	}
+
+	PersonUseCase := usecase.NewPersonUseCase()
+
+	PersonController := controller.NewPersonController(PersonUseCase)
+
+	server.GET("/person", PersonController.GetPerson)
 
 	server.Run(":8080")
 }

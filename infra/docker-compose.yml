@@ -34,7 +34,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: alfie
-      POSTGRES_PASSWORD: 1234
+      POSTGRES_PASSWORD: KMDJaLZ!k1
     ports:
       - "5432:5432"
     volumes:
