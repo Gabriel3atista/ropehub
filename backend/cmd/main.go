@@ -3,25 +3,28 @@ package main
 import (
 	"server/controller"
 	"server/db"
+	"server/repository"
 	"server/usecase"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
 func main() {
-	server := gin.Default()
+	router := gin.Default()
+	dbConnection, err := db.ConnectDB()
 
-	dbConnection, error := db.ConnectDB()
-
-	if error != nil {
-		panic(error)
+	if err != nil {
+		panic(err)
 	}
 
-	PersonUseCase := usecase.NewPersonUseCase()
-
+	PersonRepository := repository.NewPersonRepository(dbConnection)
+	PersonUseCase := usecase.NewPersonUseCase(PersonRepository)
 	PersonController := controller.NewPersonController(PersonUseCase)
 
-	server.GET("/person", PersonController.GetPerson)
+	router.GET("/persons", PersonController.GetPerson)
+	router.POST("/person", PersonController.CreatePerson)
+	router.GET("/person/:id_person", PersonController.GetPersonById)
 
-	server.Run(":8080")
+	router.Run(":8080")
 }
